@@ -33,10 +33,14 @@ export default {
     // }
   },
   created: async function () {
-    const res = await axios.get('http://localhost:3001/api/randomnumber');
-    if (res.status === 200) {
-      this.randomNumberList = res.data;
-    } else {
+    try {
+      const res = await axios.get('http://localhost:3001/api/randomnumber');
+      if (res.status === 200) {
+        this.randomNumberList = res.data;
+      } else {
+        alert('乱数の取得に失敗しました。');
+      }
+    } catch(err) {
       alert('乱数の取得に失敗しました。');
     }
     return;
@@ -51,10 +55,15 @@ export default {
       return;
     },
     generatorRundomNumber: async function () {
-      const res = await axios.post('http://localhost:3001/api/randomnumber');
-      if (res.status !== 200) {
-        this.randomNumberList = res.data;
-      } else {
+      try {
+        const res = await axios.post('http://localhost:3001/api/randomnumber');
+        if (res.status === 200) {
+          this.randomNumberList = res.data;
+          alert('乱数の生成に成功しました。');
+        } else {
+          alert('乱数の生成に失敗しました。');
+        }
+      } catch(err) {
         alert('乱数の生成に失敗しました。');
       }
       return;
