@@ -34,7 +34,7 @@ export default {
   },
   created: async function () {
     try {
-      const res = await axios.get('http://localhost:3001/api/randomnumber');
+      const res = await axios.get('/api/randomnumber');
       if (res.status === 200) {
         this.randomNumberList = res.data;
       } else {
@@ -56,7 +56,7 @@ export default {
     },
     generatorRundomNumber: async function () {
       try {
-        const res = await axios.post('http://localhost:3001/api/randomnumber');
+        const res = await axios.post('/api/randomnumber');
         if (res.status === 200) {
           this.randomNumberList = res.data;
           alert('乱数の生成に成功しました。');
