@@ -60,6 +60,8 @@ export default {
         if (res.status === 200) {
           this.randomNumberList = res.data;
           alert('乱数の生成に成功しました。');
+          this.nameBtnStatus = [true, true, true, true, true];
+          this.randomNumber = 0;
         } else {
           alert('乱数の生成に失敗しました。');
         }
