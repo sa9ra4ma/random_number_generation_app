@@ -32,7 +32,7 @@ export default {
     //   return this.randomNumber ? `あなたの番号は${this.randomNumber}です。` : '';
     // }
   },
-  created: async function () {
+  mounted: async function () {
     try {
       const res = await axios.get('/api/randomnumber');
       if (res.status === 200) {
