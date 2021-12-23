@@ -15,6 +15,9 @@ $ npm run start
 
 # generate static project
 $ npm run generate
+
+# 本番環境での永続起動
+$ forever start --uid "web" -t -a -c "npm start" ./
 ```
 
 For detailed explanation on how things work, check out the [documentation](https://nuxtjs.org).
