@@ -1,15 +1,8 @@
 <template>
   <div>
-    <!-- <div class="m-3">
-      <button type="button" @click="displayNumber(0)" :class="{hiddenHome: !hiddenNameBtn[0]}" class="name-btn-home px-2 py-1 bg-blue-400 text-white font-semibold rounded hover:bg-blue-500">今福</button>
-      <button type="button" @click="displayNumber(1)" :class="{hiddenHome: !hiddenNameBtn[1]}" class="name-btn-home px-2 py-1 bg-red-400 text-white font-semibold rounded hover:bg-red-500">今村</button>
-      <button type="button" @click="displayNumber(2)" :class="{hiddenHome: !hiddenNameBtn[2]}" class="name-btn-home px-2 py-1 bg-green-400 text-white font-semibold rounded hover:bg-green-500">山内</button>
-      <button type="button" @click="displayNumber(3)" :class="{hiddenHome: !hiddenNameBtn[3]}" class="name-btn-home px-2 py-1 bg-yellow-400 text-white font-semibold rounded hover:bg-yellow-500">湯浅</button>
-      <button type="button" @click="displayNumber(4)" :class="{hiddenHome: !hiddenNameBtn[4]}" class="name-btn-home px-2 py-1 bg-pink-400 text-white font-semibold rounded hover:bg-pink-500">新福</button>
+    <div class="m-3">
+      <p>お題：{{ theme }}</p>
     </div>
-    <div class="m-3" :class="{hiddenHome: randomNumber == 0}">
-      <p>あなたの番号は{{ randomNumber }}です。</p>
-    </div> -->
     <div class="m-3">
       <table class="table-auto">
         <thead>
@@ -33,6 +26,7 @@
       </table>
     </div>
     <div class="m-3">
+      <button type="button" @click="changeTheme" class="px-2 py-1 bg-gray-400 text-white font-semibold rounded hover:bg-bgray-500">テーマ変更</button>
       <button type="button" @click="generatorRundomNumber" class="px-2 py-1 bg-gray-400 text-white font-semibold rounded hover:bg-bgray-500">乱数再生成</button>
     </div>
     <div class="m-3">
@@ -52,6 +46,7 @@ export default {
       hiddenNameBtn: [false, false, false, false, false],
       hiddenUserValue: [true, true, true, true, true],
       isFinish: false,
+      theme: '読み込み中...'
     }
   },
   computed: {
@@ -70,6 +65,7 @@ export default {
     } catch(err) {
       alert('乱数の取得に失敗しました。');
     }
+    this.fetchTheme();
     return;
   },
   methods: {
@@ -86,6 +82,12 @@ export default {
       this.hiddenNameBtn = JSON.parse(JSON.stringify(this.hiddenNameBtn));
 
       return;
+    },
+    changeTheme: async function () {
+      const resConfirm = confirm('全員分のお題が変更されますが、よろしいですか。');
+      if (!resConfirm) return;
+      this.theme = '読み込み中...';
+      this.generateTheme();
     },
     generatorRundomNumber: async function () {
       const resConfirm = confirm('全員分の値が変更されますが、よろしいですか。');
@@ -108,6 +110,34 @@ export default {
     resultAnnouncement: function () {
       this.isFinish = true;
       this.hiddenNameBtn = [false, false, false, false, false];
+    },
+
+
+    fetchTheme: async function() {
+      try {
+        const res = await axios.get('/api/theme');
+        if (res.status === 200) {
+          this.theme = res.data.theme;
+        } else {
+          alert('お題の取得に失敗しました。');
+        }
+      } catch(err) {
+        alert('お題の取得に失敗しました。');
+      }
+      return;
+    },
+    generateTheme: async function() {
+      try {
+        const res = await axios.post('/api/theme/random');
+        if (res.status === 200) {
+          this.theme = res.data.theme;
+        } else {
+          alert('お題の更新に失敗しました。');
+        }
+      } catch(err) {
+        alert('お題の更新に失敗しました。');
+      }
+      return;
     }
   }
 }
