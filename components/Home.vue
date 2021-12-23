@@ -26,7 +26,7 @@
       </table>
     </div>
     <div class="m-3">
-      <button type="button" @click="changeTheme" class="px-2 py-1 bg-gray-400 text-white font-semibold rounded hover:bg-bgray-500">テーマ変更</button>
+      <button type="button" @click="changeTheme" class="px-2 py-1 bg-gray-400 text-white font-semibold rounded hover:bg-bgray-500">お題変更</button>
       <button type="button" @click="generatorRundomNumber" class="px-2 py-1 bg-gray-400 text-white font-semibold rounded hover:bg-bgray-500">乱数再生成</button>
     </div>
     <div class="m-3">
